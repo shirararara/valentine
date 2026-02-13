@@ -1,0 +1,372 @@
+<html lang="ru"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Богдаша</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2d0a0a 0%, #4a1a1a 50%, #6b2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffb3b3;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px #8b0000, 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInDown 1s ease;
+        }
+
+        .image-container {
+            width: 280px;
+            height: 280px;
+            margin: 1rem auto;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid #8b0000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 20px #8b0000;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .question {
+            font-size: 2rem;
+            color: #ff9999;
+            margin: 2rem 0;
+            font-weight: bold;
+            text-shadow: 0 0 8px #660000;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .btn-yes {
+            background: #8b0000;
+            color: #ffcccc;
+            border: 1px solid #ff4d4d;
+        }
+
+        .btn-yes:hover {
+            background: #a52a2a;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #ff4d4d;
+        }
+
+        .btn-no {
+            background: #330000;
+            color: #996666;
+            border: 1px solid #660000;
+            position: static; /* Убираем absolute */
+        }
+
+        .btn-no:hover {
+            background: #4d1a1a;
+            color: #ff9999;
+        }
+
+        .message {
+            display: none;
+            margin-top: 3rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message h2 {
+            font-size: 2.5rem;
+            color: #ffb3b3;
+            margin: 1rem 0;
+            text-shadow: 0 0 15px #8b0000;
+        }
+
+        .message p {
+            font-size: 1.3rem;
+            color: #ff9999;
+            margin: 1rem 0;
+        }
+
+        .message .ps {
+            font-size: 1rem;
+            color: #b36666;
+            margin-top: 2rem;
+            font-style: italic;
+        }
+
+        .message img{
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hearts-bg span {
+            position: absolute;
+            color: #8b4d4d;
+            font-size: 2rem;
+            animation: floatHeart 10s linear infinite;
+            opacity: 0.2;
+            text-shadow: 0 0 10px #330000;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .footer {
+            margin-top: 3rem;
+            color: #b37373;
+            opacity: 0.6;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .question { font-size: 1.5rem; }
+            .btn { padding: 12px 30px; font-size: 1.2rem; }
+            .container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="heartsBg"><span style="left: 74.0037%; animation-delay: 8.87335s; font-size: 2.84147rem;">❤️</span><span style="left: 98.3982%; animation-delay: 8.14583s; font-size: 1.63636rem;">❤️</span><span style="left: 0.589091%; animation-delay: 0.988267s; font-size: 2.99655rem;">❤️</span><span style="left: 2.33811%; animation-delay: 1.98145s; font-size: 1.08776rem;">❤️</span><span style="left: 11.9712%; animation-delay: 4.18863s; font-size: 2.16578rem;">❤️</span><span style="left: 79.4056%; animation-delay: 3.45708s; font-size: 2.5924rem;">❤️</span><span style="left: 31.7726%; animation-delay: 8.79062s; font-size: 2.25188rem;">❤️</span><span style="left: 46.5575%; animation-delay: 1.82784s; font-size: 1.50388rem;">❤️</span><span style="left: 28.9181%; animation-delay: 0.697237s; font-size: 1.54518rem;">❤️</span><span style="left: 15.243%; animation-delay: 8.97248s; font-size: 2.02723rem;">❤️</span><span style="left: 96.9922%; animation-delay: 0.475614s; font-size: 1.90749rem;">❤️</span><span style="left: 99.2176%; animation-delay: 3.09839s; font-size: 1.79073rem;">❤️</span><span style="left: 79.2914%; animation-delay: 0.788393s; font-size: 1.28556rem;">❤️</span><span style="left: 92.5269%; animation-delay: 4.68908s; font-size: 2.93382rem;">❤️</span><span style="left: 51.7147%; animation-delay: 9.49906s; font-size: 2.22385rem;">❤️</span></div>
+
+    <div class="container">
+        <h1>Богдаша</h1>
+        
+        <div class="image-container">
+            <img src="main.jpg.jpg" alt="Вместе до конца">
+        </div>
+
+        <div class="question">
+           Ты будешь моим Валентином?
+        </div>
+
+        <div class="buttons" id="buttons">
+            <button class="btn btn-yes" id="yesBtn">Да ❤️</button>
+            <button class="btn btn-no" id="noBtn">Нет</button>
+        </div>
+
+        <div class="message" id="message">
+            <h2>Правильный выбор</h2>
+            <p></p>
+            <img src="love.jpg.jpg" alt="УРА ПАБЕДА">
+            <p></p>
+            <div style="font-size: 3rem; margin: 1rem 0; color: #ff9999;"></div>
+            <p class="ps"> Ай тигрр<br></p>
+        </div>
+
+        <div class="footer">
+            
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        const buttons = document.getElementById('buttons');
+        const heartsBg = document.getElementById('heartsBg');
+        
+        // Массив с разными вариантами текста для кнопки "Нет"
+        const noTexts = [
+            'Нет', 
+            'Точно нет?', 
+            'Подумай', 
+            'Не надо', 
+            'Хватит', 
+            'Мимо', 
+            'Не сюда', 
+            'Убрал мышку', 
+            'Попробуй еще',
+            'Не сегодня',
+            'Может Да? Пизда',
+            'Сомневаюсь'
+        ];
+        
+        let textIndex = 0;
+        let moveCount = 0;
+        let isMoving = false;
+
+        // Создаем плавающие сердечки на фоне
+        function createHearts() {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('span');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 10 + 's';
+                heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                heartsBg.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // Кнопка "Нет" убегает при наведении
+        noBtn.addEventListener('mouseover', (e) => {
+            if (isMoving) return;
+            isMoving = true;
+            
+            moveCount++;
+            
+            // Меняем текст каждые 2 движения
+            if (moveCount % 2 === 0) {
+                textIndex = (textIndex + 1) % noTexts.length;
+                noBtn.textContent = noTexts[textIndex];
+            }
+            
+            // Получаем контейнер и его границы
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            
+            // Границы внутри контейнера
+            const minX = containerRect.left + 20;
+            const maxX = containerRect.right - btnWidth - 20;
+            const minY = containerRect.top + 150;
+            const maxY = containerRect.bottom - btnHeight - 80;
+            
+            // Случайная позиция
+            const randomX = Math.random() * (maxX - minX) + minX;
+            const randomY = Math.random() * (maxY - minY) + minY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                noBtn.style.transform = 'scale(1)';
+                isMoving = false;
+            }, 200);
+        });
+
+        // Если нажали на "Нет"
+        noBtn.addEventListener('click', () => {
+            alert('Ахирел совсем??!!');
+            
+            // Возвращаем кнопку обратно в ряд
+            noBtn.style.position = 'static';
+            noBtn.style.left = 'auto';
+            noBtn.style.top = 'auto';
+            noBtn.textContent = 'Ну пожалуйста!';
+            
+            setTimeout(() => {
+                noBtn.textContent = 'Нет';
+            }, 1500);
+        });
+
+        // Обработка нажатия на "Да"
+        yesBtn.addEventListener('click', () => {
+        message.classList.add('show');
+
+            // Скрываем нужные контейнеры
+            document.querySelectorAll('.image-container, .question, .buttons')
+                .forEach(el => el.style.display = 'none');
+
+            // Создаем конфетти из сердечек
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.style.position = 'fixed';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.top = '-10%';
+                    heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                    heart.style.animation = 'floatHeart 3s linear forwards';
+                    heart.style.zIndex = '1000';
+                    heart.style.color = '#8b0000';
+                    document.body.appendChild(heart);
+            
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+        });
+    </script>
+
+</body></html>
